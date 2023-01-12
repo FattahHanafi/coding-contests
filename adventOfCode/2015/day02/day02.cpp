@@ -37,12 +37,20 @@ std::list<std::vector<int32_t>> Readfile()
     return res;
 };
 
-int32_t firstChalleng(std::list<std::vector<int32_t>> s)
+int32_t firstChallenge(std::list<std::vector<int32_t>> s)
 {
-    uint32_t total_area = 0;
+    int32_t total_area = 0;
     for (auto row : s)
         total_area += 3 * (row[0] * row[1]) + 2 * (row[1] * row[2] + row[0] * row[2]);
     return total_area;
+};
+
+int32_t secondChallenge(std::list<std::vector<int32_t>> s)
+{
+    int32_t total_length = 0;
+    for (auto row : s)
+        total_length += 2 * (row[0] + row[1]) + (row[0] * row[1] * row[2]);
+    return total_length;
 };
 
 int main()
@@ -50,8 +58,11 @@ int main()
 
     std::list<std::vector<int32_t>> inp = Readfile();
 
-    int32_t s1 = firstChalleng(inp);
+    int32_t s1 = firstChallenge(inp);
     std::cout << s1 << std::endl;
+
+    int32_t s2 = secondChallenge(inp);
+    std::cout << s2 << std::endl;
 
     return 0;
 }
