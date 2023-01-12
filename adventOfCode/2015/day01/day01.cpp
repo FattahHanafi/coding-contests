@@ -5,7 +5,7 @@
 std::string Readfile()
 {
     std::fstream file;
-    file.open("input1.txt", std::ios::in);
+    file.open("input.txt", std::ios::in);
     std::string s;
     std::getline(file, s);
     file.close();
