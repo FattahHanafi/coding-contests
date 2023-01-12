@@ -12,7 +12,7 @@ std::string Readfile()
     return s;
 };
 
-int32_t firstChalleng(std::string s)
+int32_t firstChallenge(std::string s)
 {
     int32_t f = 0;
     for (char c : s)
@@ -25,7 +25,7 @@ int32_t firstChalleng(std::string s)
     return f;
 };
 
-int32_t secondChallenge(std::string s)
+int32_t secondChallengee(std::string s)
 {
     int32_t f = 0;
     int32_t idx = 1;
@@ -46,10 +46,10 @@ int main()
 {
     std::string s;
     s = Readfile();
-    int32_t s1 = firstChalleng(s);
+    int32_t s1 = firstChallenge(s);
     std::cout << s1 << std::endl;
 
-    int32_t s2 = secondChallenge(s);
+    int32_t s2 = secondChallengee(s);
     std::cout << s2 << std::endl;
     
     return 0;
