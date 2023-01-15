@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <bitset>
+#include <cstring>
 
 #define LENGTH 1000
 
@@ -98,14 +99,45 @@ int32_t firstChallenge(std::list<Command> s)
                 for (size_t i = r.xs; i <= r.xe; ++i)
                     res[j].flip(i);
             break;
-
-        default:
-            break;
         }
     }
     size_t count = 0;
     for (size_t i = 0; i < LENGTH; ++i)
         count += res[i].count();
+
+    return count;
+};
+
+int32_t secondChallenge(std::list<Command> s)
+{
+    int32_t *res = new int32_t[LENGTH * LENGTH];
+    memset(res, 0, LENGTH * LENGTH * sizeof(res[0]));
+
+    for (auto r : s)
+    {
+        switch (r.instruct)
+        {
+        case ON:
+            for (size_t j = r.ys; j <= r.ye; ++j)
+                for (size_t i = r.xs; i <= r.xe; ++i)
+                    res[j * LENGTH + i] += 1;
+            break;
+        case OFF:
+            for (size_t j = r.ys; j <= r.ye; ++j)
+                for (size_t i = r.xs; i <= r.xe; ++i)
+                    res[j * LENGTH + i] -= (res[j * LENGTH + i]) ? 1 : 0;
+            break;
+        case TOGGLE:
+            for (size_t j = r.ys; j <= r.ye; ++j)
+                for (size_t i = r.xs; i <= r.xe; ++i)
+                    res[j * LENGTH + i] += 2;
+            break;
+        }
+    }
+
+    int32_t count = 0;
+    for (size_t i = 0; i < LENGTH * LENGTH; ++i)
+        count += res[i];
 
     return count;
 };
@@ -116,6 +148,9 @@ int main()
 
     int32_t s1 = firstChallenge(inp);
     std::cout << s1 << std::endl;
+
+    int32_t s2 = secondChallenge(inp);
+    std::cout << s2 << std::endl;
 
     return 0;
 }
