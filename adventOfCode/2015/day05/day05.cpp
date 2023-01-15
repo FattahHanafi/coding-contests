@@ -46,12 +46,36 @@ int32_t firstChallenge(std::list<std::string> s)
     return nice_count;
 };
 
+int32_t secondChallenge(std::list<std::string> s)
+{
+    uint32_t nice_count = 0;
+
+    for(auto r : s)
+    { 
+        bool containPair = false;
+        bool duplicate = false;
+
+        for(uint32_t i = 2; i < r.length(); ++i)
+        {
+            duplicate |= (r[i - 2] == r[i]);
+            containPair |= r.find(r.substr(i - 2, 2), i) != std::string::npos;
+        }
+
+        if (duplicate && containPair) ++nice_count;
+    }
+
+    return nice_count;
+};
+
 int main()
 {
     std::list<std::string> inp = Readfile();
-    
+
     int32_t s1 = firstChallenge(inp);
     std::cout << s1 << std::endl;
+
+    int32_t s2 = secondChallenge(inp);
+    std::cout << s2 << std::endl;
 
     return 0;
 }
