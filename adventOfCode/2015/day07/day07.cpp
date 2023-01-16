@@ -220,12 +220,149 @@ int32_t firstChallenge(std::list<Command> s)
     return res["a"];
 };
 
+int32_t secondChallenge(std::list<Command> s)
+{
+    std::unordered_map<std::string, uint16_t> res;
+
+    for(auto it = s.begin(); it != s.end(); ++it)
+    {
+        if(it->instruct == ASSIGN && it->regc == "b")
+            it->rega = "956";
+    }
+
+    while (!s.empty())
+    {
+        for (auto it = s.begin(); it != s.end();)
+        {
+            switch (it->instruct)
+            {
+            case ASSIGN:
+                if (res.find(it->rega) != res.end())
+                {
+                    res[it->regc] = res[it->rega];
+                    it = s.erase(it);
+                }
+                else if (std::isdigit(it->rega[0]))
+                {
+                    res[it->regc] = std::stoi(it->rega);                     
+                    it = s.erase(it);
+                }
+                break;
+
+                case NOT:
+                if (res.find(it->rega) != res.end())
+                {
+                    res[it->regc] = ~res[it->rega];
+                    it = s.erase(it);
+                }
+                else if (std::isdigit(it->rega[0]))
+                {
+                    res[it->regc] = ~std::stoi(it->rega);
+                    it = s.erase(it);
+                }
+                break;
+
+                case LSHIFT:
+                if (res.find(it->rega) != res.end())
+                {
+                    res[it->regc] = res[it->rega] << std::stoi(it->regb);
+                    it = s.erase(it);
+                }
+                else if (std::isdigit(it->rega[0]))
+                {
+                    res[it->regc] = std::stoi(it->rega) << std::stoi(it->regb);
+                    it = s.erase(it);
+                }
+                break;
+
+                case RSHIFT:
+                if (res.find(it->rega) != res.end())
+                {
+                    res[it->regc] = res[it->rega] >> std::stoi(it->regb);
+                    it = s.erase(it);
+                }
+                else if (std::isdigit(it->rega[0]))
+                {
+                    res[it->regc] = std::stoi(it->rega) >> std::stoi(it->regb);
+                    it = s.erase(it);
+                }
+                break;
+
+                case AND:
+                if (res.find(it->rega) != res.end())
+                {
+                    if (res.find(it->regb) != res.end())
+                    {
+                        res[it->regc] = res[it->rega] & res[it->regb];
+                        it = s.erase(it);
+                    }
+                    else if (std::isdigit(it->regb[0]))
+                    {
+                        res[it->regc] = res[it->rega] & std::stoi(it->regb);
+                        it = s.erase(it);
+                    }
+                }
+                else if (std::isdigit(it->rega[0]))
+                {
+                    if (res.find(it->regb) != res.end())
+                    {
+                        res[it->regc] = std::stoi(it->rega) & res[it->regb];
+                        it = s.erase(it);
+                    }
+                    else if (std::isdigit(it->regb[0]))
+                    {
+                        res[it->regc] = std::stoi(it->rega) & std::stoi(it->regb);
+                        it = s.erase(it);
+                    }
+                }
+                break;
+
+                case OR:
+                if (res.find(it->rega) != res.end())
+                {
+                    if (res.find(it->regb) != res.end())
+                    {
+                        res[it->regc] = res[it->rega] | res[it->regb];
+                        it = s.erase(it);
+                    }
+                    else if (std::isdigit(it->regb[0]))
+                    {
+                        res[it->regc] = res[it->rega] | std::stoi(it->regb);
+                        it = s.erase(it);
+                    }
+                }
+                else if (std::isdigit(it->rega[0]))
+                {
+                    if (res.find(it->regb) != res.end())
+                    {
+                        res[it->regc] = std::stoi(it->rega) | res[it->regb];
+                        it = s.erase(it);
+                    }
+                    else if (std::isdigit(it->regb[0]))
+                    {
+                        res[it->regc] = std::stoi(it->rega) | std::stoi(it->regb);
+                        it = s.erase(it);
+                    }
+                }
+                break;
+            }
+
+            ++it;
+        }
+    }
+
+    return res["a"];
+};
+
 int main()
 {
     std::list<Command> inp = Readfile();
 
     int32_t s1 = firstChallenge(inp);
     std::cout << s1 << std::endl;
+
+    int32_t s2 = secondChallenge(inp);
+    std::cout << s2 << std::endl;
 
     return 0;
 }
