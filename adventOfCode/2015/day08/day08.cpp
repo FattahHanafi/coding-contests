@@ -29,27 +29,27 @@ int32_t firstChallenge(std::list<std::string> s)
     for (auto &r : s)
     {
         s_count += r.size();
-        size_t idx = r.find_first_of('\\');
-        while (idx != std::string::npos)
-        {
-            if (r[idx + 1] == '\\')
-            {
-                r.erase(idx + 1, 1);
-                r[idx] = '_';
-            }
-            else if (r[idx + 1] == '"')
-            {
-                r.erase(idx + 1, 1);
-                r[idx] = '_';
-            }
-            else if (r[idx + 1] == 'x')
-            {
-                r.erase(idx + 1, 3);
-                r[idx] = '_';
-            }
-            idx = r.find_first_of('\\');
-        }
         m_count += r.size() - 2;
+        
+        for(uint32_t i = 0; i < r.size(); ++i)
+        if(r[i] == '\\')
+        {
+            if (r[i + 1] == '\\')
+            {
+                i += 1;
+                m_count -= 1;
+            }
+            else if (r[i + 1] == '"')
+            {
+                i += 1;
+                m_count -= 1;
+            }
+            else if (r[i + 1] == 'x')
+            {
+                i += 3;
+                m_count -= 3;
+            }
+        }
     }
 
     return s_count - m_count;
