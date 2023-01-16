@@ -55,12 +55,35 @@ int32_t firstChallenge(std::list<std::string> s)
     return s_count - m_count;
 };
 
+int32_t secondChallenge(std::list<std::string> s)
+{
+    int32_t s_count = 0;
+    int32_t m_count = 0;
+
+    for (auto &r : s)
+    {
+        s_count += r.size();
+        m_count += r.size() + 2;
+        
+        for(uint32_t i = 0; i < r.size(); ++i)
+        if(r[i] == '\"')
+            m_count += 1;
+            else if(r[i] == '\\')
+            m_count += 1;
+    }
+
+    return m_count - s_count;
+};
+
 int main()
 {
     std::list<std::string> inp = Readfile();
 
     int32_t s1 = firstChallenge(inp);
     std::cout << s1 << std::endl;
+
+    int32_t s2 = secondChallenge(inp);
+    std::cout << s2 << std::endl;
 
     return 0;
 }
