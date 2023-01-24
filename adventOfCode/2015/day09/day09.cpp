@@ -11,6 +11,7 @@
 typedef std::unordered_map<std::string, std::unordered_map<std::string, uint32_t>> map;
 
 uint32_t min_dist = UINT32_MAX;
+uint32_t max_dist = 0;
 
 map Readfile()
 {
@@ -48,6 +49,18 @@ void NextRound(map s, uint32_t partial_distance, std::string from)
         min_dist = std::min(partial_distance + s.begin()->second[from], min_dist);
 };
 
+void NextRoundmax(map s, uint32_t partial_distance, std::string from)
+{
+    s.erase(from);
+
+    if (s.size() > 1)
+        for (auto r : s)
+            NextRoundmax(s, partial_distance + s[r.first][from], r.first);
+    else
+        max_dist = std::max(partial_distance + s.begin()->second[from], max_dist);
+};
+
+
 uint32_t firstChallenge(map s)
 {
     for (auto r : s)
@@ -57,10 +70,22 @@ uint32_t firstChallenge(map s)
     return min_dist;
 };
 
+uint32_t secondChallenge(map s)
+{
+    for (auto r : s)
+    {
+        NextRoundmax(s, 0, r.first);
+    }
+    return max_dist;
+};
+
 int main()
 {
     map inp = Readfile();
 
     uint32_t s1 = firstChallenge(inp);
     std::cout << s1 << std::endl;
+
+    uint32_t s2 = secondChallenge(inp);
+    std::cout << s2 << std::endl;
 }
