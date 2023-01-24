@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <chrono>
 
 size_t firstChallenge(std::string s)
 {
@@ -7,14 +8,18 @@ size_t firstChallenge(std::string s)
 
     for (size_t i = 0; i < 40; ++i)
     {
+        size_t idx1 = 0;
+        size_t idx2 = 0;
         res = "";
-        while (s.length())
+        const size_t len = s.size();
+
+        while (idx2 < len)
         {
-            size_t idx = s.find_first_not_of(s[0]);
-            idx = std::min(idx, s.length());
-            res += '0' + idx;
-            res += s[0];
-            s.erase(0, idx);
+            idx2 = s.find_first_not_of(s[idx1], idx1);
+            idx2 = std::min(idx2, len);
+            res += '0' + (idx2 - idx1);
+            res += s[idx1];
+            idx1 = idx2;
         }
         s = res;
     }
@@ -28,14 +33,18 @@ size_t secondChallenge(std::string s)
 
     for (size_t i = 0; i < 50; ++i)
     {
+        size_t idx1 = 0;
+        size_t idx2 = 0;
         res = "";
-        while (s.length())
+        const size_t len = s.size();
+
+        while (idx2 < len)
         {
-            size_t idx = s.find_first_not_of(s[0]);
-            idx = std::min(idx, s.length());
-            res += '0' + idx;
-            res += s[0];
-            s.erase(0, idx);
+            idx2 = s.find_first_not_of(s[idx1], idx1);
+            idx2 = std::min(idx2, len);
+            res += '0' + (idx2 - idx1);
+            res += s[idx1];
+            idx1 = idx2;
         }
         s = res;
     }
