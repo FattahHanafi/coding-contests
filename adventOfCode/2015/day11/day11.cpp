@@ -89,8 +89,21 @@ std::string firstChallenge(std::string s) {
   return pass.ToString();
 };
 
+std::string secondChallenge(std::string s) {
+  Password pass(s);
+  pass.Advance();
+
+  while (!pass.CheckConditions())
+    pass.Advance();
+
+  return pass.ToString();
+};
+
 int main() {
   std::string inp = "hepxcrrq";
   std::string s1 = firstChallenge(inp);
   std::cout << s1 << std::endl;
+  
+  std::string s2 = secondChallenge(s1);
+  std::cout << s2 << std::endl;
 }
