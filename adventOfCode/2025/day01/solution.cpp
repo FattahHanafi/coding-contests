@@ -17,7 +17,7 @@ void readFile(const std::string filename, std::vector<int32_t> *values) {
   }
 }
 
-uint32_t part1(std::vector<int32_t> values) {
+uint32_t part1(const std::vector<int32_t> &values) {
   int32_t value = 50;
   int32_t total = 0;
   for (const auto &v : values) {
@@ -28,9 +28,38 @@ uint32_t part1(std::vector<int32_t> values) {
   return total;
 }
 
+uint32_t part2(const std::vector<int32_t> &values) {
+  int32_t value = 50;
+  uint32_t total = 0;
+  for (auto v : values) {
+    do {
+      if (v > 0) {
+        --v;
+        ++value;
+        if (value == 100) {
+          value = 0;
+        }
+      } else {
+        ++v;
+        --value;
+        if (value == -1) {
+          value = 99;
+        }
+      }
+      total += (value == 0);
+
+    } while (v != 0);
+  }
+  return total;
+}
+
 int main(int argc, char *argv[]) {
   std::vector<int32_t> values;
   readFile("input.txt", &values);
-  int part1_res = part1(values);
+
+  uint32_t part1_res = part1(values);
   std::cout << "Part 1 : " << part1_res << '\n';
+
+  uint32_t part2_res = part2(values);
+  std::cout << "Part 2 : " << part2_res << '\n';
 }
