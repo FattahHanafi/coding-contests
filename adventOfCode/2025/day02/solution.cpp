@@ -5,8 +5,10 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <string.h>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -52,16 +54,37 @@ uint64_t part1(const std::vector<std::array<uint64_t, 2>> &values) {
   return total;
 }
 
-// uint32_t part2(std::vector<int32_t> &values) {
-//   uint32_t total = 0;
-//   std::vector<int32_t> new_vec;
-//   for (auto &v : values) {
-//     total += std::abs(v / 100);
-//     new_vec.emplace_back(v % 100);
-//   }
-//   total += part1(new_vec, true);
-//   return total;
-// }
+uint64_t part2(const std::vector<std::array<uint64_t, 2>> &values) {
+  uint64_t total = 0;
+  for (const auto &row : values) {
+    for (auto id = row.front(); id <= row.back(); ++id) {
+      auto str = std::to_string(id);
+      auto len = str.size();
+      bool complete_invalid = false;
+      for (auto i = 1; i <= len / 2; ++i) {
+        if (len % i == 0) {
+          bool invalid = true;
+          auto it_1 = str.cbegin();
+          auto it_2 = str.cbegin();
+          std::advance(it_2, i);
+          while (it_2 != str.cend()) {
+            if (*it_1 != *it_2) {
+              invalid = false;
+            }
+            ++it_1;
+            ++it_2;
+          }
+          complete_invalid |= invalid;
+        }
+      }
+      if (complete_invalid) {
+        total += id;
+        continue;
+      }
+    }
+  }
+  return total;
+}
 
 int main(int argc, char *argv[]) {
   std::vector<std::array<uint64_t, 2>> values;
@@ -69,7 +92,7 @@ int main(int argc, char *argv[]) {
 
   uint64_t part1_res = part1(values);
   std::cout << "Part 1 : " << part1_res << '\n';
-  //
-  // uint32_t part2_res = part2(values);
-  // std::cout << "Part 2 : " << part2_res << '\n';
+
+  uint64_t part2_res = part2(values);
+  std::cout << "Part 2 : " << part2_res << '\n';
 }
