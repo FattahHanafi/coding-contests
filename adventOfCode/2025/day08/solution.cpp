@@ -152,61 +152,14 @@ int64_t part2(const std::vector<Point> &values) {
 
   return xA * xB;
 }
-//   uint64_t total = 0;
-//   std::vector<bool> beams;
-//   auto val_it = values.cbegin();
-//   for (const auto &val : *val_it) {
-//     beams.emplace_back(val == 2);
-//   }
-//   ++val_it;
-//   while (val_it != values.cend()) {
-//     for (size_t idx = 0; idx < val_it->size(); ++idx) {
-//       if (beams.at(idx) && val_it->at(idx) == 1) {
-//         beams.at(idx - 1) = true;
-//         beams.at(idx) = false;
-//         beams.at(idx + 1) = true;
-//         ++total;
-//       }
-//     }
-//     ++val_it;
-//   }
-//   return total;
-// }
-//
-// uint64_t part2(const std::vector<std::vector<uint8_t>> &values) {
-//   std::vector<uint64_t> beams;
-//   auto val_it = values.cbegin();
-//   for (const auto &v : *val_it) {
-//     beams.emplace_back(v == 2);
-//   }
-//   ++val_it;
-//
-//   while (val_it != values.cend()) {
-//     for (size_t j = 0; j < val_it->size(); ++j) {
-//       if (beams.at(j) && val_it->at(j) == 1) {
-//         beams.at(j - 1) += beams.at(j);
-//         beams.at(j + 1) += beams.at(j);
-//         beams.at(j) = 0;
-//       }
-//     }
-//     ++val_it;
-//   }
-//   uint64_t total;
-//   return total = std::accumulate(beams.cbegin(), beams.cend(), total);
-// }
 
 int main(int argc, char *argv[]) {
   std::vector<Point> values;
   readFile("input.txt", &values);
 
-  // auto st = std::chrono::high_resolution_clock::now();
-  // uint64_t part1_res = part1(values);
-  // auto et = std::chrono::high_resolution_clock::now();
-  // auto dur =
-  //     std::chrono::duration_cast<std::chrono::microseconds>(et - st).count();
-  // std::cout << "Part 1 : " << part1_res << " and took " << dur << " micros\n
-  // ";
-  //
+  uint64_t part1_res = part1(values);
+  std::cout << "Part 1 : " << part1_res << '\n';
+
   uint64_t part2_res = part2(values);
   std::cout << "Part 2 : " << part2_res << '\n';
 }
